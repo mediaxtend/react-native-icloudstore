@@ -41,7 +41,7 @@ static NSString* const kChangedKeys = @"changedKeys";
   return [[NSUbiquitousKeyValueStore defaultStore] objectForKey:[iCloudStorage appendPrefixToKey:key]];
 }
 
-+ (void) setValue:(NSString*)value forKey:(NSString*)key {
++ (void) setValue:(NSObject*)value forKey:(NSString*)key {
   [[NSUbiquitousKeyValueStore defaultStore] setObject:value forKey:[iCloudStorage appendPrefixToKey:key]];
   [[NSUbiquitousKeyValueStore defaultStore] synchronize];
 }
@@ -153,6 +153,12 @@ RCT_EXPORT_METHOD(getItem: (NSString*)key resolver:(RCTPromiseResolveBlock)resol
 }
 
 RCT_EXPORT_METHOD(setItem: (NSString*)key value: (NSString*)value resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+  [iCloudStorage setValue:value forKey:key];
+  resolve(@{});
+}
+
+RCT_EXPORT_METHOD(setArrayItem: (NSString*)key value: (NSArray*)value resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
   [iCloudStorage setValue:value forKey:key];
   resolve(@{});
